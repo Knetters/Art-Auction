@@ -1,0 +1,30 @@
+<%- include('./partials/head') %>
+
+<%- include('./partials/iconBar') %>
+
+<%- include('./partials/collection') %>
+
+<h1>Start game</h1>
+
+<section class="medium-menu">
+  <span class="game-code"><%= gameCode %></span>
+  <h2>Players</h2>
+  <ul class="player-invite-list">
+    <% if (players.length === 0) { %>
+      <li class="no-players">No players yet...</li>
+    <% } else { %>
+      <% players.forEach(player => { %>
+        <li><%= player.name %><span id="remove-player-icon" class="remove-player-icon"><i class="fa fa-times" aria-hidden="true"></i></span></li>
+      <% }); %>
+    <% } %>
+    <li class="invite-player">Invite players</li>
+  </ul>
+  <form>
+    <h3>Draw time in seconds</h3>
+    <input class="time-value slider" type="range" min="30" max="600" value="120">
+    <span id="draw-time-value" class="draw-time-value">120</span>
+    <button type="submit">Start</button>
+  </form>
+</section>
+
+<%- include('./partials/foot') %>
