@@ -338,3 +338,7 @@ button:hover {
 .active {
     display: none;
 }
+
+.hide {
+    display: none;
+}

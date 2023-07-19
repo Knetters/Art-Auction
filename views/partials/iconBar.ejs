@@ -1,8 +1,4 @@
 <div class="icon-bar">
-    <% if(iconValue === "menuIcons") { %>
-        <img id="bagIcon" class="bagIcon" src="/img/school-bag-svgrepo-com.svg">
-    <% } else { %>
-        <img id="goBack" class="backIcon" src="/img/turn-back-left-sign-svgrepo-com.svg">
-        <img id="bagIcon" class="bagIcon" src="/img/school-bag-svgrepo-com.svg">
-    <% } %>
+    <img id="goBack" class="backIcon <% if(iconValue === "menuIcons") { %>hide<% } %>" src="/img/turn-back-left-sign-svgrepo-com.svg">
+    <img id="bagIcon" class="bagIcon" src="/img/school-bag-svgrepo-com.svg">
 </div>
