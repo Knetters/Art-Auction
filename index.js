@@ -60,22 +60,20 @@ app.get('/lobby/:lobbyCode', (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('joinLobby', (data) => {
-    const {playerRole, playerName, lobbyCode } = data;
-
+    const { playerRole, playerName, lobbyCode } = data;
+  
     // Check if the lobby exists
     if (lobbies[lobbyCode]) {
       // Add the player to the lobby
       const player = { role: playerRole, name: playerName };
       lobbies[lobbyCode].players.push(player);
-
-      console.log(player)
-
+  
       // Join the socket to the lobby room
       socket.join(lobbyCode);
-
+  
       // Notify all clients in the lobby about the updated player list
       io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
-
+  
       // Redirect the player to the lobby
       socket.emit('lobbyRedirect', { lobbyCode });
     } else {
