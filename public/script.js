@@ -36,7 +36,7 @@ if(collectionPopup) {
   }
 }
 
-let keyDownInteraction = document.querySelectorAll('input');
+let keyDownInteraction = document.querySelectorAll('.input-field');
 
 keyDownInteraction.forEach(input => {
   input.addEventListener('keydown', wiggleHandler);

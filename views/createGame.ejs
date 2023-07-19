@@ -9,14 +9,14 @@
 <section class="medium-menu">
   <form id="lobby-entry-form">
     <h2>Username</h2>
-    <input type="text" id="player-name" autocomplete="off" spellcheck="false" maxlength="16" required>
+    <input class="input-field" type="text" id="player-name" autocomplete="off" spellcheck="false" maxlength="16" required>
 
     <input class="hide" type="text" id="lobby-code" autocomplete="off" spellcheck="false" maxlength="6" required value="<%= gameCode %>">
 
     <h3>Draw time in seconds</h3>
     <input class="time-value slider" type="range" min="30" max="600" value="120">
     <span id="draw-time-value" class="draw-time-value">120</span>
-    
+
     <button type="submit">Create</button>
   </form>
 </section>
