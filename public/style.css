@@ -225,6 +225,10 @@ a {
     pointer-events: none;
 }
 
+.invite-more-players-message {
+    font-size: 1.5rem;
+}
+
 .slider {
     -webkit-appearance: none;
     width: 100%;
