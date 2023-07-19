@@ -165,11 +165,18 @@ a {
     opacity: .8;
 }
 
-.remove-player-icon {
+.player-list-icon {
     color: var(--c-fourthary);
-    float: right;
     margin-right: .3rem;
     font-size: 1.5rem;
+}
+
+.float-right {
+    float: right;
+}
+
+.host {
+    box-shadow: inset 3px 0px 0px var(--c-primairy);
 }
 
 .remove-player-icon:hover {

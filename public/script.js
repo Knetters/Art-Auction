@@ -46,3 +46,26 @@ keyDownInteraction.forEach(input => {
 function wiggleHandler(event) {
   event.target.classList.toggle('wiggle');
 }
+
+// Get all elements with the "game-code" class
+var gameCodes = document.getElementsByClassName("game-code");
+
+// Add a click event listener to each element
+for (var i = 0; i < gameCodes.length; i++) {
+  gameCodes[i].addEventListener("click", function () {
+    // Copy the value inside the clicked span
+    var valueToCopy = this.textContent || this.innerText;
+    copyToClipboard(valueToCopy);
+  });
+}
+
+// Function to copy the specified value to the clipboard
+function copyToClipboard(value) {
+  var textarea = document.createElement("textarea");
+  textarea.value = value;
+  textarea.style.position = "fixed"; // Prevent scrolling to bottom of page
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+}

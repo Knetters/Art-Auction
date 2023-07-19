@@ -12,12 +12,12 @@
     <input type="text" id="player-name" autocomplete="off" spellcheck="false" maxlength="16" required>
 
     <input class="hide" type="text" id="lobby-code" autocomplete="off" spellcheck="false" maxlength="6" required value="<%= gameCode %>">
-    <button type="submit">Create</button>
-  </form>
-  <form id="start-game-form"> <!-- Add an ID to the form -->
+
     <h3>Draw time in seconds</h3>
     <input class="time-value slider" type="range" min="30" max="600" value="120">
     <span id="draw-time-value" class="draw-time-value">120</span>
+    
+    <button type="submit">Create</button>
   </form>
 </section>
 
