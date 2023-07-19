@@ -14,7 +14,7 @@
       <li class="no-players">No players yet...</li>
     <% } else { %>
       <% players.forEach(player => { %>
-        <li class="<% if(player.role === "host") { %>host<% } %>"><%= player.name %><span id="remove-player-icon" class="player-list-icon float-right"><i class="fa fa-times" aria-hidden="true"></i></span></li>
+        <li class="<% if(player.role === "host") { %>host<% } %>"><%= player.name %><span id="remove-player-icon" class="player-list-icon float-right <% if(player.role === "host") { %>hide<% } %>"><i class="fa fa-times" aria-hidden="true"></i></span></li>
       <% }); %>
     <% } %>
   </ul>
