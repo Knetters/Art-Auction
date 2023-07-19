@@ -20,6 +20,14 @@
 <%- include('./partials/foot') %>
 
 <script>
+  function generateId() {
+    // Generate a random ID using a combination of timestamp and a random number
+    const timestamp = new Date().getTime();
+    const randomNum = Math.floor(Math.random() * 1000);
+    const id = `${timestamp}-${randomNum}`;
+    return id;
+  }
+
   const form = document.getElementById('lobby-entry-form');
   const playerNameInput = document.getElementById('player-name');
   const lobbyCodeInput = document.getElementById('lobby-code');
@@ -32,8 +40,10 @@
     const playerName = playerNameInput.value;
     const lobbyCode = lobbyCodeInput.value;
 
+    const playerId = generateId();
+
     // Emit the joinLobby event to the server
-    socket.emit('joinLobby', { playerRole, playerName, lobbyCode });
+    socket.emit('joinLobby', { playerId, playerRole, playerName, lobbyCode });
   });
 
   // Event listener for lobby not found error
