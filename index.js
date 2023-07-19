@@ -73,24 +73,29 @@ io.on('connection', (socket) => {
   
     // Check if the lobby exists
     if (lobbies[lobbyCode]) {
-      // Add the player to the lobby
-      const player = { id: playerId, role: playerRole, name: playerName };
-      lobbies[lobbyCode].players.push(player);
+      // Check if the lobby has less than 8 players
+      if (lobbies[lobbyCode].players.length < 8) {
+        // Add the player to the lobby
+        const player = { id: playerId, role: playerRole, name: playerName };
+        lobbies[lobbyCode].players.push(player);
 
-      console.log(player)
+        console.log(player)
 
-      // Join the socket to the lobby room
-      socket.join(lobbyCode);
+        // Join the socket to the lobby room
+        socket.join(lobbyCode);
 
-      // Set the player role in the socket's session
-      socket.emit('setRole', playerRole);
+        // Set the player role in the socket's session
+        socket.emit('setRole', playerRole);
 
-      // Notify all clients in the lobby about the updated player list
-      io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
+        // Notify all clients in the lobby about the updated player list
+        io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
 
-      // Redirect the player to the lobby
-      socket.emit('lobbyRedirect', { lobbyCode });
-
+        // Redirect the player to the lobby
+        socket.emit('lobbyRedirect', { lobbyCode });
+      } else {
+        // Lobby is full, handle error
+        socket.emit('lobbyFullError');
+      }
     } else {
       // Lobby does not exist, handle error
       socket.emit('lobbyNotFoundError');
