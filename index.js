@@ -20,6 +20,12 @@ function generateCode() {
   return code.toString();
 }
 
+app.get('/setRole/:role', (req, res) => {
+  const role = req.params.role;
+  res.cookie('playerRole', role); // Set a cookie with the player role
+  res.send(); // Send a response to indicate success
+});
+
 app.get('/', (req, res) => {
   const iconValue = "menuIcons";
   res.render('index', { iconValue });
@@ -69,15 +75,19 @@ io.on('connection', (socket) => {
       lobbies[lobbyCode].players.push(player);
 
       console.log(player)
-  
+
       // Join the socket to the lobby room
       socket.join(lobbyCode);
-  
+
+      // Set the player role in the socket's session
+      socket.emit('setRole', playerRole);
+
       // Notify all clients in the lobby about the updated player list
       io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
-  
+
       // Redirect the player to the lobby
       socket.emit('lobbyRedirect', { lobbyCode });
+
     } else {
       // Lobby does not exist, handle error
       socket.emit('lobbyNotFoundError');

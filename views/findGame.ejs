@@ -36,7 +36,7 @@
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const playerRole = "player";
+    const playerRole = "player"; // or "player" depending on the page
     const playerName = playerNameInput.value;
     const lobbyCode = lobbyCodeInput.value;
 
@@ -44,6 +44,15 @@
 
     // Emit the joinLobby event to the server
     socket.emit('joinLobby', { playerId, playerRole, playerName, lobbyCode });
+
+    // Set the player role in the session
+    fetch(`/setRole/${playerRole}`)
+      .then(() => {
+        console.log('Player role set in session');
+      })
+      .catch((error) => {
+        console.error('Failed to set player role in session:', error);
+      });
   });
 
   // Event listener for lobby not found error

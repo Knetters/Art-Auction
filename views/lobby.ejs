@@ -22,6 +22,28 @@
 
 <%- include('./partials/foot') %>
 
-<script>  
-  
+<script>
+  const socket = io(); // Establish socket.io connection
+
+  // Event listener for setRole event
+  socket.on('setRole', (role) => {
+    localStorage.setItem('playerRole', role); // Store the player role in local storage
+  });
+
+  // Event listener for playerListUpdate event
+  socket.on('playerListUpdate', (players) => {
+    // Get the player list element
+    const playerList = document.getElementById('player-list');
+    
+    // Clear the current player list
+    playerList.innerHTML = '';
+    
+    // Render the updated player list
+    players.forEach(player => {
+      const listItem = document.createElement('li');
+      listItem.className = player.role === 'host' ? 'host' : '';
+      listItem.innerHTML = `${player.name}<span id="remove-player-icon" class="player-list-icon float-right ${player.role === 'host' ? 'hide' : ''}"><i class="fa fa-times" aria-hidden="true"></i></span>`;
+      playerList.appendChild(listItem);
+    });
+  });
 </script>
