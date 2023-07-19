@@ -11,7 +11,10 @@ app.set("views", "./views");
 
 app.use(express.static('public'));
 
-// Generate a random 6-digit code
+// Lobby storage
+const lobbies = {};
+
+// Generate a random 6-digit code for the lobby
 function generateCode() {
   const code = Math.floor(100000 + Math.random() * 900000);
   return code.toString();
@@ -25,8 +28,14 @@ app.get('/', (req, res) => {
 app.get('/createGame', (req, res) => {
   const iconValue = "ingameIcons";
 
-  // Generate a code for the game lobby
-  const gameCode = generateCode();
+  // Generate a unique code for the game lobby
+  let gameCode;
+  do {
+    gameCode = generateCode();
+  } while (lobbies[gameCode]);
+
+  // Store the lobby using the generated code
+  lobbies[gameCode] = { players: [] };
 
   res.render('createGame', { iconValue, gameCode, players: [] });
 });
@@ -34,6 +43,57 @@ app.get('/createGame', (req, res) => {
 app.get('/findGame', (req, res) => {
   const iconValue = "ingameIcons";
   res.render('findGame', { iconValue });
+});
+
+app.get('/lobby/:lobbyCode', (req, res) => {
+  const iconValue = "ingameIcons";
+  const lobbyCode = req.params.lobbyCode;
+
+  if (lobbies[lobbyCode]) {
+    const players = lobbies[lobbyCode].players;
+
+    res.render('lobby', { iconValue, gameCode: lobbyCode, players });
+  } else {
+    res.send('Lobby not found');
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('joinLobby', (data) => {
+    const {playerRole, playerName, lobbyCode } = data;
+
+    // Check if the lobby exists
+    if (lobbies[lobbyCode]) {
+      // Add the player to the lobby
+      const player = { role: playerRole, name: playerName };
+      lobbies[lobbyCode].players.push(player);
+
+      console.log(player)
+
+      // Join the socket to the lobby room
+      socket.join(lobbyCode);
+
+      // Notify all clients in the lobby about the updated player list
+      io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
+
+      // Redirect the player to the lobby
+      socket.emit('lobbyRedirect', { lobbyCode });
+    } else {
+      // Lobby does not exist, handle error
+      socket.emit('lobbyNotFoundError');
+    }
+  });
+
+  socket.on('disconnecting', () => {
+    // Remove the player from the lobby when they disconnect
+    const rooms = Object.keys(socket.rooms);
+    rooms.forEach(room => {
+      if (lobbies[room]) {
+        lobbies[room].players = lobbies[room].players.filter(player => player.socketId !== socket.id);
+        io.to(room).emit('playerListUpdate', lobbies[room].players);
+      }
+    });
+  });
 });
 
 const port = process.env.PORT || 8000;

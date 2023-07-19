@@ -18,3 +18,40 @@
 </section>
 
 <%- include('./partials/foot') %>
+
+<script>
+  const form = document.getElementById('lobby-entry-form');
+  const playerNameInput = document.getElementById('player-name');
+  const lobbyCodeInput = document.getElementById('lobby-code');
+
+  const socket = io(); // Establish socket.io connection
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const playerRole = "player";
+    const playerName = playerNameInput.value;
+    const lobbyCode = lobbyCodeInput.value;
+
+    // Emit the joinLobby event to the server
+    socket.emit('joinLobby', { playerRole, playerName, lobbyCode });
+  });
+
+  // Event listener for lobby not found error
+  socket.on('lobbyNotFoundError', () => {
+    // Handle the error, e.g., show an error message to the user
+    console.log('Lobby not found');
+  });
+
+  // Event listener for player list update
+  socket.on('playerListUpdate', (players) => {
+    // Handle the updated player list, e.g., update the UI with the new players
+    console.log('Player list:', players);
+  });
+
+  // Event listener for lobby redirect
+  socket.on('lobbyRedirect', (data) => {
+    const { lobbyCode } = data;
+    // Redirect the player to the lobby page
+    window.location.href = `/lobby/${lobbyCode}`;
+  });
+</script>

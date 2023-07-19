@@ -4,27 +4,58 @@
 
 <%- include('./partials/collection') %>
 
-<h1>Start game</h1>
+<h1>Create game</h1>
 
 <section class="medium-menu">
-  <span class="game-code"><%= gameCode %></span>
-  <h2>Players</h2>
-  <ul class="player-invite-list">
-    <% if (players.length === 0) { %>
-      <li class="no-players">No players yet...</li>
-    <% } else { %>
-      <% players.forEach(player => { %>
-        <li><%= player.name %><span id="remove-player-icon" class="remove-player-icon"><i class="fa fa-times" aria-hidden="true"></i></span></li>
-      <% }); %>
-    <% } %>
-    <li class="invite-player">Invite players</li>
-  </ul>
-  <form>
+  <form id="lobby-entry-form">
+    <h2>Username</h2>
+    <input type="text" id="player-name" autocomplete="off" spellcheck="false" maxlength="16" required>
+
+    <input class="hide" type="text" id="lobby-code" autocomplete="off" spellcheck="false" maxlength="6" required value="<%= gameCode %>">
+    <button type="submit">Create</button>
+  </form>
+  <form id="start-game-form"> <!-- Add an ID to the form -->
     <h3>Draw time in seconds</h3>
     <input class="time-value slider" type="range" min="30" max="600" value="120">
     <span id="draw-time-value" class="draw-time-value">120</span>
-    <button type="submit">Start</button>
   </form>
 </section>
 
 <%- include('./partials/foot') %>
+
+<script>  
+  const form = document.getElementById('lobby-entry-form');
+  const playerNameInput = document.getElementById('player-name');
+  const lobbyCodeInput = document.getElementById('lobby-code');
+
+  const socket = io(); // Establish socket.io connection
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const playerRole = "host";
+    const playerName = playerNameInput.value;
+    const lobbyCode = lobbyCodeInput.value;
+
+    // Emit the joinLobby event to the server
+    socket.emit('joinLobby', { playerRole, playerName, lobbyCode });
+  });
+
+  // Event listener for lobby not found error
+  socket.on('lobbyNotFoundError', () => {
+    // Handle the error, e.g., show an error message to the user
+    console.log('Lobby not found');
+  });
+
+  // Event listener for player list update
+  socket.on('playerListUpdate', (players) => {
+    // Handle the updated player list, e.g., update the UI with the new players
+    console.log('Player list:', players);
+  });
+
+  // Event listener for lobby redirect
+  socket.on('lobbyRedirect', (data) => {
+    const { lobbyCode } = data;
+    // Redirect the player to the lobby page
+    window.location.href = `/lobby/${lobbyCode}`;
+  });
+</script>

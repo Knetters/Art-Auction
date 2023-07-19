@@ -1,0 +1,58 @@
+<%- include('./partials/head') %>
+
+<%- include('./partials/iconBar') %>
+
+<%- include('./partials/collection') %>
+
+<h1>Create game</h1>
+
+<section class="medium-menu">
+  <span class="game-code"><%= gameCode %></span>
+  <h2>Players</h2>
+  <ul class="player-invite-list">
+    <% if (players.length === 0) { %>
+      <li class="no-players">No players yet...</li>
+    <% } else { %>
+      <% players.forEach(player => { %>
+        <li><%= player.name %><span id="remove-player-icon" class="remove-player-icon"><i class="fa fa-times" aria-hidden="true"></i></span></li>
+      <% }); %>
+    <% } %>
+  </ul>
+</section>
+
+<%- include('./partials/foot') %>
+
+<script>  
+  const form = document.getElementById('start-game-form');
+  const drawTimeInput = document.querySelector('.time-value');
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const drawTime = drawTimeInput.value;
+    
+    // Add your code to start the game with the provided drawTime
+    // You can emit an event to the server to trigger game start or perform any other necessary actions
+    console.log('Game start requested:', drawTime);
+  });
+
+  // Event listener for player list update
+  socket.on('playerListUpdate', (players) => {
+    // Handle the updated player list, e.g., update the UI with the new players
+    const playerList = document.querySelector('.player-invite-list');
+
+    // Clear existing player list
+    playerList.innerHTML = '';
+
+    if (players.length === 0) {
+      const noPlayersLi = document.createElement('li');
+      noPlayersLi.textContent = 'No players yet...';
+      playerList.appendChild(noPlayersLi);
+    } else {
+      players.forEach(player => {
+        const playerLi = document.createElement('li');
+        playerLi.textContent = player.name;
+        playerList.appendChild(playerLi);
+      });
+    }
+  });
+</script>
