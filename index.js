@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const server = createServer(app);
@@ -10,6 +11,7 @@ app.set('view engine', 'ejs');
 app.set("views", "./views");
 
 app.use(express.static('public'));
+app.use(cookieParser()); // Add cookie-parser middleware
 
 // Lobby storage
 const lobbies = {};
@@ -57,8 +59,9 @@ app.get('/lobby/:lobbyCode', (req, res) => {
 
   if (lobbies[lobbyCode]) {
     const players = lobbies[lobbyCode].players;
+    const playerRole = req.cookies.playerRole; // Retrieve the player's role from the session cookie
 
-    res.render('lobby', { iconValue, gameCode: lobbyCode, players });
+    res.render('lobby', { iconValue, gameCode: lobbyCode, players, playerRole }); // Pass the playerRole to the lobby.ejs template
   } else {
     res.send('Lobby not found');
   }

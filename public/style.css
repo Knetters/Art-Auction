@@ -358,3 +358,34 @@ button:hover {
 .hide {
     display: none;
 }
+
+.not-found-error {
+    font-size: 1.5rem;
+    color: var(--c-primairy);
+    text-align: center;
+    display: none;
+}
+
+.error-pop-up {
+    display: block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    color: var(--c-fourthary);
+    font-size: 12px;
+    background-color: var(--c-primairy);
+    padding: .5rem;
+    font-family: Arial, sans-serif;
+  }
+  
+.hover-text:hover .tooltip-text {
+    visibility: visible;
+}
+  
+.top {
+    top: -40px;
+    left: -50%;
+}

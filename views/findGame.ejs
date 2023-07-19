@@ -12,6 +12,7 @@
       <input class="input-field" type="text" id="player-name" autocomplete="off" spellcheck="false" maxlength="16" required>
       <h2>Game code</h2>
       <input class="input-field" type="text" id="lobby-code" autocomplete="off" spellcheck="false" maxlength="6" required>
+      <span id="not-found-error" class="not-found-error">Lobby not found</span>
 
       <button type="submit">Find Lobby</button>
     </form>
@@ -58,7 +59,10 @@
   // Event listener for lobby not found error
   socket.on('lobbyNotFoundError', () => {
     // Handle the error, e.g., show an error message to the user
-    console.log('Lobby not found');
+    const notFoundError = document.getElementById("not-found-error");
+
+    notFoundError.classList.add("error-pop-up")
+    console.log("no")
   });
 
   // Event listener for player list update

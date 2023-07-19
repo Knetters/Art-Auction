@@ -7,7 +7,9 @@
 <h1>Waiting for players...</h1>
 
 <section class="medium-menu">
-  <span class="game-code"><%= gameCode %></span>
+  <div class="hover-text game-code"><%= gameCode %>
+    <span class="tooltip-text top">Copy code</span>
+  </div>
   <h2>Players</h2>
   <ul class="player-invite-list">
     <% if (players.length === 0) { %>
@@ -18,6 +20,9 @@
       <% }); %>
     <% } %>
   </ul>
+  <% if (playerRole === 'host') { %> <!-- Only show the start button to the player with the role "host" -->
+    <button id="host-start-button">Start</button>
+  <% } %>
 </section>
 
 <%- include('./partials/foot') %>
@@ -25,25 +30,15 @@
 <script>
   const socket = io(); // Establish socket.io connection
 
-  // Event listener for setRole event
-  socket.on('setRole', (role) => {
-    localStorage.setItem('playerRole', role); // Store the player role in local storage
-  });
-
-  // Event listener for playerListUpdate event
-  socket.on('playerListUpdate', (players) => {
-    // Get the player list element
-    const playerList = document.getElementById('player-list');
-    
-    // Clear the current player list
-    playerList.innerHTML = '';
-    
-    // Render the updated player list
-    players.forEach(player => {
-      const listItem = document.createElement('li');
-      listItem.className = player.role === 'host' ? 'host' : '';
-      listItem.innerHTML = `${player.name}<span id="remove-player-icon" class="player-list-icon float-right ${player.role === 'host' ? 'hide' : ''}"><i class="fa fa-times" aria-hidden="true"></i></span>`;
-      playerList.appendChild(listItem);
-    });
-  });
+  // Function to render the host button based on the player's role
+  function renderHostButton(role) {
+    const hostButton = document.getElementById('host-start-button');
+    if (hostButton) {
+      if (role === 'host') {
+        hostButton.style.display = 'block';
+      } else {
+        hostButton.style.display = 'none';
+      }
+    }
+  }
 </script>
