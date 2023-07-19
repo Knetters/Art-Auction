@@ -21,7 +21,11 @@
     <% } %>
   </ul>
   <% if (playerRole === 'host') { %> <!-- Only show the start button to the player with the role "host" -->
-    <button id="host-start-button">Start</button>
+    <% if (players.length < 2) { %>
+      <button id="host-start-button" class="not-enough-players">Start</button>
+    <% } else { %>
+      <button id="host-start-button">Start</button>
+    <% } %>
   <% } %>
 </section>
 

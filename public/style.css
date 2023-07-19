@@ -389,3 +389,12 @@ button:hover {
     top: -40px;
     left: -50%;
 }
+
+.not-enough-players {
+    background-color: #baced2;
+}
+
+.not-enough-players:hover {
+    opacity: 1;
+    pointer-events: none;
+}
