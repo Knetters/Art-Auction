@@ -3,6 +3,11 @@
     src: url('/fonts/MessySmilingCactus-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'Drawingfree';
+    src: url('/fonts/Drawingfree.ttf') format('truetype');
+}
+
 :root {
     --c-primairy: #DF5B57;
     --c-secondary: #2ca9bc;
@@ -12,6 +17,7 @@
     --c-offBlack: #090a0e;
 
     --drawnFont: 'MessySmilingCactus', Arial, sans-serif;
+    --numberFont: 'Drawingfree', Arial, sans-serif;
     font-size: 16px;
 }
 
