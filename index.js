@@ -67,10 +67,11 @@ app.get('/lobby/:lobbyCode', (req, res) => {
   }
 });
 
+// Replace the existing 'joinLobby' event handler with the updated code
 io.on('connection', (socket) => {
   socket.on('joinLobby', (data) => {
     const { playerId, playerRole, playerName, lobbyCode } = data;
-  
+
     // Check if the lobby exists
     if (lobbies[lobbyCode]) {
       // Check if the lobby has less than 8 players
@@ -78,8 +79,6 @@ io.on('connection', (socket) => {
         // Add the player to the lobby
         const player = { id: playerId, role: playerRole, name: playerName };
         lobbies[lobbyCode].players.push(player);
-
-        console.log(player)
 
         // Join the socket to the lobby room
         socket.join(lobbyCode);
@@ -89,6 +88,10 @@ io.on('connection', (socket) => {
 
         // Notify all clients in the lobby about the updated player list
         io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
+
+        // Notify the lobby about the player join event
+        io.to(lobbyCode).emit('playerJoined', player);
+        console.log('Player joined:', player); // Add this line to check if the event is emitted
 
         // Redirect the player to the lobby
         socket.emit('lobbyRedirect', { lobbyCode });
