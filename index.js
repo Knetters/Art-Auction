@@ -53,6 +53,11 @@ app.get('/findGame', (req, res) => {
   res.render('findGame', { iconValue });
 });
 
+app.get('/game', (req, res) => {
+  const iconValue = "ingameIcons";
+  res.render('game', { iconValue });
+});
+
 app.get('/lobby/:lobbyCode', (req, res) => {
   const iconValue = "ingameIcons";
   const lobbyCode = req.params.lobbyCode;

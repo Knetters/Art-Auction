@@ -291,6 +291,7 @@ a {
     padding: .5rem;
     right: 0;
     margin-right: 1rem;
+    font-family: Arial, sans-serif;
 }
 
 .player-count {
@@ -344,6 +345,32 @@ input {
     }
     100% {
       transform: rotate(1deg);
+    }
+}
+
+.copy {
+    animation-name: copy;
+    animation-timing-function: cubic-bezier(.17,.89,1,.71);
+    animation-duration: .2s;
+    animation-iteration-count: 1;
+    background-color: rgb(234, 49, 49) !important;
+}
+  
+@keyframes copy {
+    0% {
+      transform: scale(1, 1) translateY(0);
+    }
+    10% {
+      transform: scale(1.1, 0.9) translateY(0);
+    }
+    30% {
+      transform: scale(1, 1) translateY(1rem) rotate(10deg);
+    }
+    60% {
+      transform: scale(1, 1) translateY(-1rem) rotate(-5deg);
+    }
+    100% {
+      transform: scale(1, 1) translateY(0);
     }
 }
 

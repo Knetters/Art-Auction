@@ -1,0 +1,26 @@
+<%- include('./partials/head') %>
+
+<%- include('./partials/iconBar') %>
+
+<%- include('./partials/collection') %>
+
+  <section class="inner-game">
+
+    <% if ("1" === '1') { %>
+      <section class="medium-menu">
+        <form>
+          <h2>What should the painter make for you</h2>
+          <input type="text">
+        </form>
+      </section>
+    <% } else { %>
+      <h2>The art curator is preparing a prompt</h2>
+    <% } %>
+
+  </section>
+
+<%- include('./partials/foot') %>
+
+<script>
+  
+</script>

@@ -47,6 +47,15 @@ function wiggleHandler(event) {
   event.target.classList.toggle('wiggle');
 }
 
+let copyInteraction = document.getElementById('game-code')
+
+copyInteraction.addEventListener('click', copyHandler)
+copyInteraction.addEventListener('animationend', copyHandler)
+
+function copyHandler() {
+  copyInteraction.classList.toggle('copy')
+}
+
 // Get all elements with the "game-code" class
 var gameCodes = document.getElementsByClassName("game-code");
 

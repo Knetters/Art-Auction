@@ -4,13 +4,11 @@
 
 <%- include('./partials/collection') %>
 
-<div class="page">
-
-  <h1>Waiting for players...</h1>
+<h1>Waiting for players...</h1>
 
   <section class="medium-menu">
     <span class="player-count"><%= players.length %>/8</span>
-    <span class="game-code"><%= gameCode %></span>
+    <span id="game-code" class="game-code"><%= gameCode %></span>
     <h2>Players</h2>
     <ul class="player-invite-list">
       <% if (players.length === 0) { %>
@@ -35,34 +33,12 @@
     <% } %>
   </section>
 
-</div>
-
-<div id="game" class="page">
-  <section class="inner-game">
-
-    <% if ("1" === '1') { %>
-      <section class="medium-menu">
-        <form>
-          <h2>What should the painter make for you</h2>
-          <input type="text">
-        </form>
-      </section>
-    <% } else { %>
-      <h2>The art curator is preparing a prompt</h2>
-    <% } %>
-
-  </section>
-</div>
-
 <%- include('./partials/foot') %>
 
 <script>
   // Function to navigate to the anchor point called "game"
   function navigateToGame() {
-    const gameAnchor = document.getElementById('game');
-    if (gameAnchor) {
-      gameAnchor.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.href = `/game`;
   }
 
   const socket = io(); // Establish socket.io connection
