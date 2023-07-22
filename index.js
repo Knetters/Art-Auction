@@ -53,9 +53,18 @@ app.get('/findGame', (req, res) => {
   res.render('findGame', { iconValue });
 });
 
-app.get('/game', (req, res) => {
+app.get('/game/:gameCode', (req, res) => {
   const iconValue = "ingameIcons";
-  res.render('game', { iconValue });
+  const gameCode = req.params.gameCode;
+
+  if (lobbies[gameCode]) {
+    const players = lobbies[gameCode].players;
+    const playerRole = req.cookies.playerRole; // Retrieve the player's role from the session cookie
+
+    res.render('game', { iconValue, gameCode, players, playerRole }); // Pass the playerRole to the game.ejs template
+  } else {
+    res.send('Game lobby not found');
+  }
 });
 
 app.get('/lobby/:lobbyCode', (req, res) => {

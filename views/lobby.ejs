@@ -25,7 +25,7 @@
       <% } %>
     </ul>
     <% if (playerRole === 'host') { %>
-      <% if (players.length < 3) { %>
+      <% if (players.length < 1) { %>
         <button id="host-start-button" class="not-enough-players" onclick="navigateToGame()">Start</button>
       <% } else { %>
         <button id="host-start-button" onclick="navigateToGame()">Start</button>
@@ -38,7 +38,8 @@
 <script>
   // Function to navigate to the anchor point called "game"
   function navigateToGame() {
-    window.location.href = `/game`;
+    const gameCode = document.getElementById('game-code').innerText;
+    window.location.href = `/game/${gameCode}`;
   }
 
   const socket = io(); // Establish socket.io connection
