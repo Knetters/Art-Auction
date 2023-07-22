@@ -4,23 +4,144 @@
 
 <%- include('./partials/collection') %>
 
-  <section class="inner-game">
-
+<section class="inner-game">
+  <div class="large-padding-top">
     <% if ("1" === '1') { %>
       <section class="medium-menu">
         <form>
           <h2>What should the painter make for you</h2>
-          <input type="text">
+          <input id="prompt" type="text" autocomplete="off" spellcheck="false" maxlength="75">
         </form>
+
+        <button onclick="navigateToDrawingBoard()">Start</button>
       </section>
     <% } else { %>
       <h2>The art curator is preparing a prompt</h2>
     <% } %>
+  </div>
 
-  </section>
+</section>
+
+<section class="inner-game">
+  <div class="small-padding-top">
+    <div id="drawing-board" class="drawing-container">
+      <h2 id="promptValue">This is the place where the drawing info stands</h2>
+      <div class="horizontal-flex-row">
+        <div class="color-box horizontal-flex-item">
+          <div class="color-box horizontal-flex-item">
+            <input type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
+          </div>
+        </div>
+        <div class="draw-box horizontal-flex-item">
+          <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
+        </div>
+        <div class="brush-box horizontal-flex-item">
+          <!-- Add an input element to adjust the brush size -->
+          <input type="range" min="3" max="60" value="5" id="brushSizeInput" onchange="updateBrushSize()">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <%- include('./partials/foot') %>
 
 <script>
-  
+  // Get the prompt element and the heading element
+  var prompt = document.getElementById('prompt');
+  var promptValue = document.getElementById('promptValue');
+
+  if (promptValue) {
+    // Add an event listener to the slider to detect changes
+    prompt.addEventListener('input', function () {
+      // Update the text content of the draw-time-value element with the slider's value
+      promptValue.textContent = prompt.value;
+    });
+  }
+
+  function navigateToDrawingBoard() {
+    const drawingAnchor = document.getElementById('drawing-board');
+    if (drawingAnchor) {
+      drawingAnchor.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Initialize Socket.IO and connect to the server
+  const socket = io();
+
+  // Variables
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let brushSize = 5; // You can set the desired default brush size
+  let brushColor = "#000000"; // Default brush color (black)
+
+  // Get the drawing canvas element
+  const canvas = document.querySelector('.drawing-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Set the canvas size
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+
+  // Function to update the brush size based on the input element's value
+  function updateBrushSize() {
+    const brushSizeInput = document.getElementById('brushSizeInput');
+    brushSize = brushSizeInput.value;
+  }
+
+  // Function to update the brush color based on the color picker's value
+  function updateBrushColor() {
+    const colorPicker = document.getElementById('colorPicker');
+    brushColor = colorPicker.value;
+  }
+
+  function startDrawing(e) {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  }
+
+  function draw(e) {
+    if (!isDrawing) return;
+    const [x, y] = [e.offsetX, e.offsetY];
+
+    // Emit the drawing coordinates, brush size, and brush color to the server
+    socket.emit('draw', { lastX, lastY, x, y, brushSize, brushColor });
+
+    // Draw on the client's canvas with circular strokes
+    ctx.lineCap = "round"; // Set the line cap to round for circular strokes
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+
+    // Set the line thickness and color
+    ctx.lineWidth = brushSize;
+    ctx.strokeStyle = brushColor;
+    ctx.stroke();
+
+    [lastX, lastY] = [x, y];
+  }
+
+  function stopDrawing() {
+    isDrawing = false;
+  }
+
+  // Add event listeners to handle drawing
+  canvas.addEventListener('mousedown', startDrawing);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stopDrawing);
+  canvas.addEventListener('mouseout', stopDrawing);
+
+  // Listen for drawing events from the server
+  socket.on('draw', ({ lastX, lastY, x, y, brushSize, brushColor }) => {
+    ctx.lineCap = "round"; // Set the line cap to round for circular strokes
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+
+    // Set the line thickness and color
+    ctx.lineWidth = brushSize;
+    ctx.strokeStyle = brushColor;
+    ctx.stroke();
+  });
 </script>

@@ -61,7 +61,7 @@ body {
 }
 
 .icon-bar {
-    position: absolute;
+    position: fixed;
     top: 0;
     padding: 1rem;
     transition: .2s;
@@ -400,7 +400,7 @@ button:hover {
     background-color: var(--c-fourthary);
     border: 3px solid var(--c-secondary);
     margin-left: 25%;
-    position: absolute;
+    position: fixed;
     box-shadow: 0px 0px 10px 0px #b4b3b3;
 }
 
@@ -487,6 +487,44 @@ button:hover {
     transform: rotate(-15deg);
 }
 
-.inner-game {
+.large-padding-top {
     padding-top: 10rem;
+}
+
+.small-padding-top {
+    padding-top: 6rem;
+}
+
+.inner-game {
+    height: 100vh;
+}
+
+.drawing-container {
+    width: 70%;
+    padding: 1rem;
+    border: 3px solid var(--c-secondary);
+    margin-left: 15%;
+    box-shadow: 0px 0px 10px 0px #b4b3b3;
+}
+
+.horizontal-flex-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.color-box, .brush-box {
+    width: 10%;
+    background-color: #dbdbdb;
+}
+
+.draw-box {
+    width: 80%;
+    box-shadow: 0px 0px 10px 0px #b4b3b3;
+}
+
+.drawing-canvas {
+    height: 65vh;
 }

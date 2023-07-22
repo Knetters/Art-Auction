@@ -5,18 +5,6 @@ function backWindow() {
     window.location.href = '/';
 }
 
-// Get the slider element and the draw-time-value element
-var slider = document.querySelector('.time-value.slider');
-var drawTimeValue = document.getElementById('draw-time-value');
-
-if(slider){
-  // Add an event listener to the slider to detect changes
-  slider.addEventListener('input', function() {
-    // Update the text content of the draw-time-value element with the slider's value
-    drawTimeValue.textContent = slider.value;
-  });
-}
-
 collectionPopup = document.getElementById("collection")
 
 if(collectionPopup) {
@@ -38,22 +26,26 @@ if(collectionPopup) {
 
 let keyDownInteraction = document.querySelectorAll('.input-field');
 
-keyDownInteraction.forEach(input => {
-  input.addEventListener('keydown', wiggleHandler);
-  input.addEventListener('animationend', wiggleHandler);
-});
-
-function wiggleHandler(event) {
-  event.target.classList.toggle('wiggle');
+if(keyDownInteraction) {
+  keyDownInteraction.forEach(input => {
+    input.addEventListener('keydown', wiggleHandler);
+    input.addEventListener('animationend', wiggleHandler);
+  });
+  
+  function wiggleHandler(event) {
+    event.target.classList.toggle('wiggle');
+  }
 }
 
 let copyInteraction = document.getElementById('game-code')
 
-copyInteraction.addEventListener('click', copyHandler)
-copyInteraction.addEventListener('animationend', copyHandler)
+if(copyInteraction){
+  copyInteraction.addEventListener('click', copyHandler)
+  copyInteraction.addEventListener('animationend', copyHandler)
 
-function copyHandler() {
-  copyInteraction.classList.toggle('copy')
+  function copyHandler() {
+    copyInteraction.classList.toggle('copy')
+  }
 }
 
 // Get all elements with the "game-code" class

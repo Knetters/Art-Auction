@@ -32,6 +32,18 @@
     return id;
   }
 
+  // Get the slider element and the draw-time-value element
+  var slider = document.querySelector('.time-value.slider');
+  var drawTimeValue = document.getElementById('draw-time-value');
+
+  if(slider){
+    // Add an event listener to the slider to detect changes
+    slider.addEventListener('input', function() {
+      // Update the text content of the draw-time-value element with the slider's value
+      drawTimeValue.textContent = slider.value;
+    });
+  }
+
   const form = document.getElementById('lobby-entry-form');
   const playerNameInput = document.getElementById('player-name');
   const lobbyCodeInput = document.getElementById('lobby-code');

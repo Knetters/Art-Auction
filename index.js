@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 app.set("views", "./views");
 
 app.use(express.static('public'));
-app.use(cookieParser()); // Add cookie-parser middleware
+app.use(cookieParser());
 
 // Lobby storage
 const lobbies = {};
@@ -24,8 +24,8 @@ function generateCode() {
 
 app.get('/setRole/:role', (req, res) => {
   const role = req.params.role;
-  res.cookie('playerRole', role); // Set a cookie with the player role
-  res.send(); // Send a response to indicate success
+  res.cookie('playerRole', role);
+  res.send();
 });
 
 app.get('/', (req, res) => {
@@ -59,9 +59,9 @@ app.get('/game/:gameCode', (req, res) => {
 
   if (lobbies[gameCode]) {
     const players = lobbies[gameCode].players;
-    const playerRole = req.cookies.playerRole; // Retrieve the player's role from the session cookie
+    const playerRole = req.cookies.playerRole;
 
-    res.render('game', { iconValue, gameCode, players, playerRole }); // Pass the playerRole to the game.ejs template
+    res.render('game', { iconValue, gameCode, players, playerRole });
   } else {
     res.send('Game lobby not found');
   }
@@ -73,58 +73,50 @@ app.get('/lobby/:lobbyCode', (req, res) => {
 
   if (lobbies[lobbyCode]) {
     const players = lobbies[lobbyCode].players;
-    const playerRole = req.cookies.playerRole; // Retrieve the player's role from the session cookie
+    const playerRole = req.cookies.playerRole;
 
-    res.render('lobby', { iconValue, gameCode: lobbyCode, players, playerRole }); // Pass the playerRole to the lobby.ejs template
+    res.render('lobby', { iconValue, gameCode: lobbyCode, players, playerRole });
   } else {
     res.send('Lobby not found');
   }
 });
 
-// Replace the existing 'joinLobby' event handler with the updated code
 io.on('connection', (socket) => {
   socket.on('joinLobby', (data) => {
     const { playerId, playerRole, playerName, lobbyCode } = data;
 
-    // Check if the lobby exists
     if (lobbies[lobbyCode]) {
-      // Check if the lobby has less than 8 players
       if (lobbies[lobbyCode].players.length < 8) {
-        // Add the player to the lobby
         const player = { id: playerId, role: playerRole, name: playerName };
         lobbies[lobbyCode].players.push(player);
 
-        // Join the socket to the lobby room
         socket.join(lobbyCode);
 
-        // Set the player role in the socket's session
         socket.emit('setRole', playerRole);
 
-        // Notify all clients in the lobby about the updated player list
         io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
 
-        // Notify the lobby about the player join event
         io.to(lobbyCode).emit('playerJoined', player);
-        console.log('Player joined:', player); // Add this line to check if the event is emitted
+        console.log('Player joined:', player);
 
-        // Redirect the player to the lobby
         socket.emit('lobbyRedirect', { lobbyCode });
       } else {
-        // Lobby is full, handle error
         socket.emit('lobbyFullError');
       }
     } else {
-      // Lobby does not exist, handle error
       socket.emit('lobbyNotFoundError');
     }
   });
 
+  socket.on('draw', ({ lobbyCode, lastX, lastY, x, y }) => {
+    socket.to(lobbyCode).emit('draw', { lastX, lastY, x, y });
+  });
+
   socket.on('disconnecting', () => {
-    // Remove the player from the lobby when they disconnect
     const rooms = Object.keys(socket.rooms);
     rooms.forEach(room => {
       if (lobbies[room]) {
-        lobbies[room].players = lobbies[room].players.filter(player => player.socketId !== socket.id);
+        lobbies[room].players = lobbies[room].players.filter(player => player.id !== socket.id);
         io.to(room).emit('playerListUpdate', lobbies[room].players);
       }
     });
