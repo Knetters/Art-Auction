@@ -527,4 +527,5 @@ button:hover {
 
 .drawing-canvas {
     height: 65vh;
+    width: 100%;
 }
