@@ -505,6 +505,7 @@ button:hover {
     border: 3px solid var(--c-secondary);
     margin-left: 15%;
     box-shadow: 0px 0px 10px 0px #b4b3b3;
+    box-sizing: border-box;
 }
 
 .horizontal-flex-row {
@@ -518,6 +519,7 @@ button:hover {
 .color-box, .brush-box {
     width: 10%;
     background-color: #dbdbdb;
+    padding: .5rem;
 }
 
 .draw-box {
@@ -528,4 +530,92 @@ button:hover {
 .drawing-canvas {
     height: 65vh;
     width: 100%;
+}
+
+.color-picker {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.color-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+  
+.color-item-pair {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+  
+.color-item {
+    flex: 1;
+    height: 2rem;
+    background-color: #DF5B57;
+    box-shadow: inset 0px 0px 0px 2px #090a0e;
+    transition: .2s;
+}
+
+.color-item:hover {
+    transform: rotate(3deg);
+}
+  
+.blue {
+    background-color: #1c43df;
+}
+
+.purple {
+    background-color: #6d1cdf;
+}
+
+.red {
+    background-color: #d53838;
+}
+
+.pink {
+    background-color: #e781eb;
+}
+
+.orange {
+    background-color: #e48236;
+}
+
+.yellow {
+    background-color: #f9f342;
+}
+
+.green {
+    background-color: #42cd40;
+}
+
+.darkgreen {
+    background-color: #365d35;
+}
+
+.brown {
+    background-color: #4f3422;
+}
+
+.beige {
+    background-color: #bca88c;
+}
+
+.gray {
+    background-color: #b6b6b6;
+}
+
+.darkgray {
+    background-color: #595959;
+}
+
+.black {
+    background-color: #141414;
+}
+
+.white {
+    background-color: #e9e9e9;
 }

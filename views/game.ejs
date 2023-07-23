@@ -28,7 +28,38 @@
       <h2 id="promptValue">This is the place where the drawing info stands</h2>
       <div class="horizontal-flex-row">
         <div class="color-box horizontal-flex-item">
-          <input type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
+          <div class="color-flex-container">
+            <div class="color-item-pair">
+              <div class="color-item blue"></div>
+              <div class="color-item purple"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item red"></div>
+              <div class="color-item pink"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item orange"></div>
+              <div class="color-item yellow"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item darkgreen"></div>
+              <div class="color-item green"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item brown"></div>
+              <div class="color-item beige"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item darkgray"></div>
+              <div class="color-item gray"></div>
+            </div>
+            <div class="color-item-pair">
+              <div class="color-item black"></div>
+              <div class="color-item white"></div>
+            </div>
+          </div>
+          <input class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
+          <button onclick="restart()">Restart</button>
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
@@ -45,27 +76,13 @@
 <%- include('./partials/foot') %>
 
 <script>
-  // Get the prompt element and the heading element
-  var prompt = document.getElementById('prompt');
-  var promptValue = document.getElementById('promptValue');
+  // Get the drawing canvas element
+  const canvas = document.querySelector('.drawing-canvas');
+  const ctx = canvas.getContext('2d');
 
-  if (promptValue) {
-    // Add an event listener to the slider to detect changes
-    prompt.addEventListener('input', function () {
-      // Update the text content of the draw-time-value element with the slider's value
-      promptValue.textContent = prompt.value;
-    });
-  }
-
-  function navigateToDrawingBoard() {
-    const drawingAnchor = document.getElementById('drawing-board');
-    if (drawingAnchor) {
-      drawingAnchor.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  // Initialize Socket.IO and connect to the server
-  const socket = io();
+  // Set the canvas size
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
   // Variables
   let isDrawing = false;
@@ -74,13 +91,8 @@
   let brushSize = 5; // You can set the desired default brush size
   let brushColor = "#000000"; // Default brush color (black)
 
-  // Get the drawing canvas element
-  const canvas = document.querySelector('.drawing-canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Set the canvas size
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+  // Variable to store drawing history for the undo functionality
+  let drawingHistory = [];
 
   // Function to update the brush size based on the input element's value
   function updateBrushSize() {
@@ -97,14 +109,14 @@
   function startDrawing(e) {
     isDrawing = true;
     [lastX, lastY] = [e.offsetX, e.offsetY];
+
+    // Save the initial point for undo purposes
+    drawingHistory.push({ x: lastX, y: lastY });
   }
 
   function draw(e) {
     if (!isDrawing) return;
     const [x, y] = [e.offsetX, e.offsetY];
-
-    // Emit the drawing coordinates, brush size, and brush color to the server
-    socket.emit('draw', { lastX, lastY, x, y, brushSize, brushColor });
 
     // Draw on the client's canvas with circular strokes
     ctx.lineCap = "round"; // Set the line cap to round for circular strokes
@@ -118,10 +130,21 @@
     ctx.stroke();
 
     [lastX, lastY] = [x, y];
+
+    // Save the new point for undo purposes
+    drawingHistory.push({ x: lastX, y: lastY });
   }
 
   function stopDrawing() {
     isDrawing = false;
+  }
+
+  function restart() {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Clear the drawing history
+    drawingHistory = [];
   }
 
   // Add event listeners to handle drawing
@@ -129,17 +152,4 @@
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', stopDrawing);
   canvas.addEventListener('mouseout', stopDrawing);
-
-  // Listen for drawing events from the server
-  socket.on('draw', ({ lastX, lastY, x, y, brushSize, brushColor }) => {
-    ctx.lineCap = "round"; // Set the line cap to round for circular strokes
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(x, y);
-
-    // Set the line thickness and color
-    ctx.lineWidth = brushSize;
-    ctx.strokeStyle = brushColor;
-    ctx.stroke();
-  });
 </script>
