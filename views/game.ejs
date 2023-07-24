@@ -66,7 +66,7 @@
         </div>
         <div class="brush-box horizontal-flex-item">
           <!-- Add an input element to adjust the brush size -->
-          <input type="range" min="3" max="60" value="5" id="brushSizeInput" onchange="updateBrushSize()">
+          <input type="range" min="3" max="60" value="3" id="brushSizeInput" onchange="updateBrushSize()">
         </div>
       </div>
     </div>
@@ -76,6 +76,25 @@
 <%- include('./partials/foot') %>
 
 <script>
+  // Get the prompt element and the heading element
+  var prompt = document.getElementById('prompt');
+  var promptValue = document.getElementById('promptValue');
+
+  if (promptValue) {
+    // Add an event listener to the slider to detect changes
+    prompt.addEventListener('input', function () {
+      // Update the text content of the draw-time-value element with the slider's value
+      promptValue.textContent = prompt.value;
+    });
+  }
+
+  function navigateToDrawingBoard() {
+    const drawingAnchor = document.getElementById('drawing-board');
+    if (drawingAnchor) {
+      drawingAnchor.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   // Get the drawing canvas element
   const canvas = document.querySelector('.drawing-canvas');
   const ctx = canvas.getContext('2d');
@@ -88,7 +107,7 @@
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
-  let brushSize = 5; // You can set the desired default brush size
+  let brushSize = 3; // You can set the desired default brush size
   let brushColor = "#000000"; // Default brush color (black)
 
   // Variable to store drawing history for the undo functionality
