@@ -114,7 +114,7 @@ h4 {
     padding: 0;
     text-align: center;
     font-size: 1.5rem;
-    margin-top: 1rem;
+    margin-bottom: -.5rem;
 }
 
 h1 span {
@@ -593,6 +593,8 @@ button:hover {
   
 .color-item {
     flex: 1;
+    padding: 0;
+    margin: 0;
     height: 2rem;
     background-color: #DF5B57;
     box-shadow: inset 0px 0px 0px 2px #090a0e;

@@ -30,36 +30,35 @@
         <div class="color-box horizontal-flex-item">
           <div class="color-flex-container">
             <div class="color-item-pair">
-              <div class="color-item blue"></div>
-              <div class="color-item purple"></div>
+              <button class="color-item blue" onclick="changeBrushColor('#1c43df')"></button>
+              <button class="color-item purple" onclick="changeBrushColor('#6d1cdf')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item red"></div>
-              <div class="color-item pink"></div>
+              <button class="color-item red" onclick="changeBrushColor('#d53838')"></button>
+              <button class="color-item pink" onclick="changeBrushColor('#e781eb')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item orange"></div>
-              <div class="color-item yellow"></div>
+              <button class="color-item orange" onclick="changeBrushColor('#e48236')"></button>
+              <button class="color-item yellow" onclick="changeBrushColor('#f9f342')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item darkgreen"></div>
-              <div class="color-item green"></div>
+              <button class="color-item darkgreen" onclick="changeBrushColor('#365d35')"></button>
+              <button class="color-item green" onclick="changeBrushColor('#42cd40')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item brown"></div>
-              <div class="color-item beige"></div>
+              <button class="color-item brown" onclick="changeBrushColor('#4f3422')"></button>
+              <button class="color-item beige" onclick="changeBrushColor('#bca88c')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item darkgray"></div>
-              <div class="color-item gray"></div>
+              <button class="color-item darkgray" onclick="changeBrushColor('#595959')"></button>
+              <button class="color-item gray" onclick="changeBrushColor('#b6b6b6')"></button>
             </div>
             <div class="color-item-pair">
-              <div class="color-item black"></div>
-              <div class="color-item white"></div>
+              <button class="color-item black" onclick="changeBrushColor('#141414')"></button>
+              <button class="color-item white" onclick="changeBrushColor('#e9e9e9')"></button>
             </div>
-            <form class="color-picker-form">
-              <input name="colorPicker" class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
-            </form>
+            <h4>Pick color</h4>
+            <input name="colorPicker" class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
             </div>
           <button class="restart-button" onclick="restart()">Restart</button>
         </div>
@@ -111,6 +110,10 @@
   let lastY = 0;
   let brushSize = 3; // You can set the desired default brush size
   let brushColor = "#000000"; // Default brush color (black)
+
+function changeBrushColor(color) {
+  brushColor = color;
+}
 
   // Variable to store drawing history for the undo functionality
   let drawingHistory = [];
