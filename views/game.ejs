@@ -57,16 +57,18 @@
               <div class="color-item black"></div>
               <div class="color-item white"></div>
             </div>
-          </div>
-          <input class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
-          <button onclick="restart()">Restart</button>
+            <form class="color-picker-form">
+              <input name="colorPicker" class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
+            </form>
+            </div>
+          <button class="restart-button" onclick="restart()">Restart</button>
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
         </div>
         <div class="brush-box horizontal-flex-item">
           <!-- Add an input element to adjust the brush size -->
-          <input type="range" min="3" max="60" value="3" id="brushSizeInput" onchange="updateBrushSize()">
+          <input type="range" min="3" max="256" value="3" class="brush-size-slider" id="brushSizeInput" orient="vertical" onchange="updateBrushSize()">
         </div>
       </div>
     </div>
