@@ -8,12 +8,11 @@
   <div class="large-padding-top">
     <% if ("1" === '1') { %>
       <section class="medium-menu">
-        <form>
+        <form id="draw-input-form">
           <h2>What should the painter make for you</h2>
           <input id="prompt" type="text" autocomplete="off" spellcheck="false" maxlength="75">
+          <button type="submit">Start</button>
         </form>
-
-        <button onclick="navigateToDrawingBoard()">Start</button>
       </section>
     <% } else { %>
       <h2>The art curator is preparing a prompt</h2>
@@ -77,9 +76,14 @@
 <%- include('./partials/foot') %>
 
 <script>
+  const form = document.getElementById('draw-input-form');
+  
   // Get the prompt element and the heading element
   var prompt = document.getElementById('prompt');
   var promptValue = document.getElementById('promptValue');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault(); // Prevent form submission and page refresh
 
   if (promptValue) {
     // Add an event listener to the slider to detect changes
@@ -87,14 +91,18 @@
       // Update the text content of the draw-time-value element with the slider's value
       promptValue.textContent = prompt.value;
     });
-  }
 
-  function navigateToDrawingBoard() {
-    const drawingAnchor = document.getElementById('drawing-board');
-    if (drawingAnchor) {
-      drawingAnchor.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Navigate to the drawing board after setting up the input event listener
+    navigateToDrawingBoard();
   }
+});
+
+function navigateToDrawingBoard() {
+  const drawingAnchor = document.getElementById('drawing-board');
+  if (drawingAnchor) {
+    drawingAnchor.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 
   // Get the drawing canvas element
   const canvas = document.querySelector('.drawing-canvas');

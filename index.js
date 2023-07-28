@@ -108,6 +108,13 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('startGame', (lobbyCode) => {
+    if (lobbies[lobbyCode]) {
+      const gameCode = lobbyCode;
+      io.to(lobbyCode).emit('navigateToGame', gameCode);
+    }
+  });
+
   socket.on('draw', ({ lobbyCode, lastX, lastY, x, y }) => {
     socket.to(lobbyCode).emit('draw', { lastX, lastY, x, y });
   });
