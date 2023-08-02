@@ -11,19 +11,12 @@
     <span id="game-code" class="game-code"><%= gameCode %></span>
     <h2>Players</h2>
     <ul class="player-invite-list">
-      <% if (players.length === 0) { %>
-        <li class="no-players">No players yet...</li>
-      <% } if (players.length < 3) { %>
-        <% players.forEach(player => { %>
-          <li class="<% if(player.role === "host") { %>host<% } %>"><%= player.name %><span id="remove-player-icon" class="player-list-icon float-right <% if(player.role === "host") { %>hide<% } %>"><i class="fa fa-times" aria-hidden="true"></i></span></li>
-        <% }); %>
-        <span class="invite-more-players-message">Invite more players to start</span>
-      <% } else { %>
-        <% players.forEach(player => { %>
-          <li class="<% if(player.role === "host") { %>host<% } %>"><%= player.name %><span id="remove-player-icon" class="player-list-icon float-right <% if(player.role === "host") { %>hide<% } %>"><i class="fa fa-times" aria-hidden="true"></i></span></li>
-        <% }); %>
-      <% } %>
+      <% players.forEach(player => { %>
+        <li class="<% if(player.role === "host") { %>host<% } %>"><%= player.name %><span id="remove-player-icon" class="player-list-icon float-right <% if(player.role === "host") { %>hide<% } %>"><i class="fa fa-times" aria-hidden="true"></i></span></li>
+      <% }); %>
     </ul>
+    <span id="inviteMorePlayersMessage" class="invite-more-players-message"></span>
+    
     <% if (playerRole === 'host') { %>
       <% if (players.length < 1) { %>
         <button id="host-start-button" class="not-enough-players">Start</button>
@@ -55,4 +48,42 @@
       }
     }
   }
+
+  function fetchPlayerList() {
+  const gameCode = document.getElementById('game-code').innerText;
+  const inviteMorePlayersMessage = document.getElementById("inviteMorePlayersMessage");
+
+  fetch(`/getPlayerList/${gameCode}`)
+    .then(response => response.json())
+    .then(data => {
+      // Update the player list in the DOM
+      const playerList = document.querySelector('.player-invite-list');
+      playerList.innerHTML = ''; // Clear the existing list
+
+      if (data.players.length === 0) {
+        const noPlayersItem = document.createElement('li');
+        noPlayersItem.textContent = 'No players yet...';
+        playerList.appendChild(noPlayersItem);
+      } else {
+        data.players.forEach(player => {
+          const playerItem = document.createElement('li');
+          playerItem.textContent = player.name;
+          playerList.appendChild(playerItem);
+        });
+      }
+
+      if (data.players.length >= 3) {
+        inviteMorePlayersMessage.innerHTML = "Enough players have joined, click start to begin"
+      } else {
+        inviteMorePlayersMessage.innerHTML = "Invite more players to start"
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching player list:', error);
+  });
+}
+
+// Call the fetchPlayerList function every few seconds
+fetchPlayerList()
+setInterval(fetchPlayerList, 3000); // Adjust the interval as needed
 </script>

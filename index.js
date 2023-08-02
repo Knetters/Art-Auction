@@ -28,6 +28,16 @@ app.get('/setRole/:role', (req, res) => {
   res.send();
 });
 
+app.get('/getPlayerList/:gameCode', (req, res) => {
+  const gameCode = req.params.gameCode;
+  if (lobbies[gameCode]) {
+    const players = lobbies[gameCode].players;
+    res.json({ players });
+  } else {
+    res.status(404).json({ error: 'Game lobby not found' });
+  }
+});
+
 app.get('/', (req, res) => {
   const iconValue = "menuIcons";
   res.render('index', { iconValue });
@@ -94,12 +104,9 @@ io.on('connection', (socket) => {
 
         socket.emit('setRole', playerRole);
 
-        io.to(lobbyCode).emit('playerListUpdate', lobbies[lobbyCode].players);
-
-        io.to(lobbyCode).emit('playerJoined', player);
-        console.log('Player joined:', player);
-
         socket.emit('lobbyRedirect', { lobbyCode });
+
+        console.log(`playerId: ${playerId} joined lobby: ${lobbyCode}`);
       } else {
         socket.emit('lobbyFullError');
       }
@@ -124,7 +131,6 @@ io.on('connection', (socket) => {
     rooms.forEach(room => {
       if (lobbies[room]) {
         lobbies[room].players = lobbies[room].players.filter(player => player.id !== socket.id);
-        io.to(room).emit('playerListUpdate', lobbies[room].players);
       }
     });
   });
