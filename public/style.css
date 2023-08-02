@@ -594,7 +594,7 @@ button:hover {
     flex: 1;
     padding: 0;
     margin: 0;
-    height: 2rem;
+    height: 1.6rem;
     background-color: #DF5B57;
     box-shadow: inset 0px 0px 0px 2px #090a0e;
     transition: .2s;
@@ -608,40 +608,72 @@ button:hover {
     background-color: #1c43df;
 }
 
+.blue2 {
+    background-color: #7993fd;
+}
+
 .purple {
     background-color: #6d1cdf;
+}
+
+.purple2 {
+    background-color: #b784ff;
 }
 
 .red {
     background-color: #d53838;
 }
 
+.red2 {
+    background-color: #ff8282;
+}
+
 .pink {
     background-color: #e781eb;
+}
+
+.pink2 {
+    background-color: #fdbbff;
 }
 
 .orange {
     background-color: #e48236;
 }
 
+.orange2 {
+    background-color: #ffb378;
+}
+
 .yellow {
-    background-color: #f9f342;
+    background-color: #f2e532;
+}
+
+.yellow2 {
+    background-color: #fff99e;
 }
 
 .green {
-    background-color: #42cd40;
+    background-color: #498a47;
 }
 
-.darkgreen {
-    background-color: #365d35;
+.green2 {
+    background-color: #90ff8d;
 }
 
 .brown {
     background-color: #4f3422;
 }
 
+.brown2 {
+    background-color: #ac6535;
+}
+
 .beige {
     background-color: #bca88c;
+}
+
+.beige2 {
+    background-color: #fbdcb2;
 }
 
 .gray {

@@ -30,23 +30,39 @@
           <div class="color-flex-container">
             <div class="color-item-pair">
               <button class="color-item blue" onclick="changeBrushColor('#1c43df')"></button>
+              <button class="color-item blue2" onclick="changeBrushColor('#7993fd')"></button>
+            </div>
+            <div class="color-item-pair">
               <button class="color-item purple" onclick="changeBrushColor('#6d1cdf')"></button>
+              <button class="color-item purple2" onclick="changeBrushColor('#b784ff')"></button>
             </div>
             <div class="color-item-pair">
               <button class="color-item red" onclick="changeBrushColor('#d53838')"></button>
+              <button class="color-item red2" onclick="changeBrushColor('#ff8282')"></button>
+            </div>
+            <div class="color-item-pair">
               <button class="color-item pink" onclick="changeBrushColor('#e781eb')"></button>
+              <button class="color-item pink2" onclick="changeBrushColor('#fdbbff')"></button>
             </div>
             <div class="color-item-pair">
               <button class="color-item orange" onclick="changeBrushColor('#e48236')"></button>
-              <button class="color-item yellow" onclick="changeBrushColor('#f9f342')"></button>
+              <button class="color-item orange2" onclick="changeBrushColor('#ffb378')"></button>
             </div>
             <div class="color-item-pair">
-              <button class="color-item darkgreen" onclick="changeBrushColor('#365d35')"></button>
-              <button class="color-item green" onclick="changeBrushColor('#42cd40')"></button>
+              <button class="color-item yellow" onclick="changeBrushColor('#f2d532')"></button>
+              <button class="color-item yellow2" onclick="changeBrushColor('#fff99e')"></button>
+            </div>
+            <div class="color-item-pair">
+              <button class="color-item green" onclick="changeBrushColor('#498a47')"></button>
+              <button class="color-item green2" onclick="changeBrushColor('#90ff8d')"></button>
             </div>
             <div class="color-item-pair">
               <button class="color-item brown" onclick="changeBrushColor('#4f3422')"></button>
+              <button class="color-item brown2" onclick="changeBrushColor('#ac6535')"></button>
+            </div>
+            <div class="color-item-pair">
               <button class="color-item beige" onclick="changeBrushColor('#bca88c')"></button>
+              <button class="color-item beige2" onclick="changeBrushColor('#bca88c')"></button>
             </div>
             <div class="color-item-pair">
               <button class="color-item darkgray" onclick="changeBrushColor('#595959')"></button>
@@ -59,7 +75,7 @@
             <h4>Pick color</h4>
             <input name="colorPicker" class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
             </div>
-          <button class="restart-button" onclick="restart()">Restart</button>
+          <button class="restart-button" onclick="restart()">Reset</button>
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
