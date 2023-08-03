@@ -510,6 +510,19 @@ button:hover {
     height: 100vh;
 }
 
+.leave-button-container {
+    width: 6rem;
+    margin-left: 35%;
+    margin-top: -1rem;
+}
+
+.leave-button-container button {
+    background-color: var(--c-primairy);
+    padding: .5rem;
+    color: var(--c-fourthary);
+    font-size: 1.5rem;
+}
+
 .drawing-container {
     width: 70%;
     padding: 1rem;
@@ -645,7 +658,7 @@ button:hover {
 }
 
 .yellow {
-    background-color: #f2e532;
+    background-color: #f2d532;
 }
 
 .yellow2 {

@@ -7,7 +7,7 @@
 <h1>Waiting for players...</h1>
 
   <section class="medium-menu">
-    <span class="player-count"><%= players.length %>/8</span>
+    <span id="player-count" class="player-count"><%= players.length %>/8</span>
     <span id="game-code" class="game-code"><%= gameCode %></span>
     <h2>Players</h2>
     <ul class="player-invite-list">
@@ -25,6 +25,9 @@
       <% } %>
     <% } %>
   </section>
+  <div class="leave-button-container">
+    <button id="leave-button">Leave</button>
+  </div>
 
 <%- include('./partials/foot') %>
 
@@ -52,6 +55,7 @@
   function fetchPlayerList() {
   const gameCode = document.getElementById('game-code').innerText;
   const inviteMorePlayersMessage = document.getElementById("inviteMorePlayersMessage");
+  const playerCount = document.getElementById("player-count");
 
   fetch(`/getPlayerList/${gameCode}`)
     .then(response => response.json())
@@ -69,11 +73,12 @@
           const playerItem = document.createElement('li');
           playerItem.textContent = player.name;
           playerList.appendChild(playerItem);
+          playerCount.innerHTML = `${data.players.length}/8`;
         });
       }
 
       if (data.players.length >= 3) {
-        inviteMorePlayersMessage.innerHTML = "Enough players have joined, click start to begin"
+        inviteMorePlayersMessage.innerHTML = ""
       } else {
         inviteMorePlayersMessage.innerHTML = "Invite more players to start"
       }
