@@ -76,17 +76,18 @@
               <button class="color-item black" onclick="changeBrushColor('#141414')"></button>
               <button class="color-item white" onclick="changeBrushColor('#e9e9e9')"></button>
             </div>
+
             <h4>Pick color</h4>
             <input name="colorPicker" class="color-picker" type="color" id="colorPicker" value="#000000" onchange="updateBrushColor()">
+
+            <h4>Brush size</h4>
+            <input type="range" min="3" max="256" value="3" class="brush-slider" id="brushSizeInput" onchange="updateBrushSize()">
             </div>
-          <button class="restart-button" onclick="restart()">Reset</button>
+
+          <img id="trashIcon" class="trashIcon restart-button" src="/img/delete-alt-svgrepo-com.svg" onclick="restart()">
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
-        </div>
-        <div class="brush-box horizontal-flex-item">
-          <!-- Add an input element to adjust the brush size -->
-          <input type="range" min="3" max="256" value="3" class="brush-size-slider" id="brushSizeInput" orient="vertical" onchange="updateBrushSize()">
         </div>
       </div>
     </div>
