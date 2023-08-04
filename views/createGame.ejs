@@ -14,7 +14,7 @@
     <input class="hide" type="text" id="lobby-code" autocomplete="off" spellcheck="false" maxlength="6" required value="<%= gameCode %>">
 
     <h3>Draw time in seconds</h3>
-    <input class="time-value slider" type="range" min="30" max="600" value="120">
+    <input id="draw-time" class="time-value slider" type="range" min="30" max="600" value="120">
     <span id="draw-time-value" class="draw-time-value">120</span>
 
     <button type="submit">Create</button>
@@ -47,6 +47,7 @@
   const form = document.getElementById('lobby-entry-form');
   const playerNameInput = document.getElementById('player-name');
   const lobbyCodeInput = document.getElementById('lobby-code');
+  const drawTimeInput = document.getElementById('draw-time');
 
   const socket = io(); // Establish socket.io connection
 
@@ -55,11 +56,12 @@
     const playerRole = "host"; // or "player" depending on the page
     const playerName = playerNameInput.value;
     const lobbyCode = lobbyCodeInput.value;
+    const drawTime = drawTimeInput.value;
 
     const playerId = generateId();
 
     // Emit the joinLobby event to the server
-    socket.emit('joinLobby', { playerId, playerRole, playerName, lobbyCode });
+    socket.emit('joinLobby', { playerId, playerRole, playerName, lobbyCode, drawTime });
 
     // Set the player role in the session
     fetch(`/setRole/${playerRole}`)

@@ -10,7 +10,7 @@
       <section class="medium-menu">
         <form id="draw-input-form">
           <h2>What should the painter make for you</h2>
-          <input id="prompt" type="text" autocomplete="off" spellcheck="false" maxlength="75">
+          <input id="prompt" type="text" autocomplete="off" spellcheck="false" maxlength="75" required>
           <button type="submit">Start</button>
         </form>
       </section>
@@ -24,7 +24,11 @@
 <section class="inner-game">
   <div class="small-padding-top">
     <div id="drawing-board" class="drawing-container">
-      <h2 id="promptValue">This is the place where the drawing info stands</h2>
+      <div class="draw-title-header">
+        <h2 id="promptValue">This is the place where the drawing info stands</h2>
+        <span class="draw-time-indicator"><%= drawTime %></span>
+      </div>
+      
       <div class="horizontal-flex-row">
         <div class="color-box horizontal-flex-item">
           <div class="color-flex-container">
@@ -62,7 +66,7 @@
             </div>
             <div class="color-item-pair">
               <button class="color-item beige" onclick="changeBrushColor('#bca88c')"></button>
-              <button class="color-item beige2" onclick="changeBrushColor('#bca88c')"></button>
+              <button class="color-item beige2" onclick="changeBrushColor('#fbdcb2')"></button>
             </div>
             <div class="color-item-pair">
               <button class="color-item darkgray" onclick="changeBrushColor('#595959')"></button>
@@ -95,20 +99,18 @@
   const form = document.getElementById('draw-input-form');
   
   // Get the prompt element and the heading element
-  var prompt = document.getElementById('prompt');
-  var promptValue = document.getElementById('promptValue');
+  let prompt = document.getElementById('prompt');
+  let promptValue = document.getElementById('promptValue');
+
+  let promptTitles = [];
 
 form.addEventListener('submit', (e) => {
   e.preventDefault(); // Prevent form submission and page refresh
 
   if (promptValue) {
-    // Add an event listener to the slider to detect changes
-    prompt.addEventListener('input', function () {
-      // Update the text content of the draw-time-value element with the slider's value
-      promptValue.textContent = prompt.value;
-    });
+    promptValue.textContent = prompt.value;
+    promptTitles.push = prompt.value
 
-    // Navigate to the drawing board after setting up the input event listener
     navigateToDrawingBoard();
   }
 });

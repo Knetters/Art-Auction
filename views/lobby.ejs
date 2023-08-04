@@ -52,6 +52,11 @@
     }
   }
 
+  socket.on('userJoined', (data) => {
+    const playerName = data.playerName;
+    alert(`User ${playerName} joined the lobby.`);
+  });
+
   function fetchPlayerList() {
   const gameCode = document.getElementById('game-code').innerText;
   const inviteMorePlayersMessage = document.getElementById("inviteMorePlayersMessage");
