@@ -74,7 +74,7 @@
             </div>
             <div class="color-item-pair">
               <button class="color-item black" onclick="changeBrushColor('#141414')"></button>
-              <button class="color-item white" onclick="changeBrushColor('#f2f2f2')"></button>
+              <button class="color-item white" onclick="changeBrushColor('#f1f1f1')"></button>
             </div>
 
             <h4>Pick color</h4>
@@ -123,6 +123,10 @@ function navigateToDrawingBoard() {
   }
 }
 
+// Below this line is drawing mechenics
+// ____________________________________
+
+
   // Get the drawing canvas element
   const canvas = document.querySelector('.drawing-canvas');
   const ctx = canvas.getContext('2d');
@@ -150,6 +154,25 @@ function changeBrushColor(color) {
     const brushSizeInput = document.getElementById('brushSizeInput');
     brushSize = brushSizeInput.value;
   }
+
+  // Update cursor position and draw cursor outline
+canvas.addEventListener('mousemove', updateCursorPosition);
+
+// Function to update cursor position and draw cursor outline
+function updateCursorPosition(e) {
+  if (!isDrawing) {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw cursor outline
+    const [x, y] = [e.offsetX, e.offsetY];
+    ctx.beginPath();
+    ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+    ctx.strokeStyle = brushColor;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
 
   // Function to update the brush color based on the color picker's value
   function updateBrushColor() {
