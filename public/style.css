@@ -580,13 +580,10 @@ button:hover {
     justify-content: space-between;
 }
 
-.restart-button {
+.bottomIcon {
+    height: 2rem;
     margin-top: auto;
     bottom: 0;
-}
-
-.trashIcon {
-    height: 2rem;
 }
 
 .draw-box {
@@ -649,7 +646,7 @@ button:hover {
     transform: rotate(3deg);
 }
 
-.trashIcon:hover {
+.bottomIcon:hover {
     transform: rotate(6deg);
 }
 

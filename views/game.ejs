@@ -74,7 +74,7 @@
             </div>
             <div class="color-item-pair">
               <button class="color-item black" onclick="changeBrushColor('#141414')"></button>
-              <button class="color-item white" onclick="changeBrushColor('#f1f1f1')"></button>
+              <button class="color-item white" onclick="changeBrushColor('#f2f2f2')"></button>
             </div>
 
             <h4>Pick color</h4>
@@ -84,7 +84,8 @@
             <input type="range" min="3" max="100" value="3" class="brush-slider" id="brushSizeInput" onchange="updateBrushSize()">
             </div>
 
-          <img id="trashIcon" class="trashIcon restart-button" src="/img/delete-alt-svgrepo-com.svg" onclick="restart()">
+          <img id="trashIcon" class="bottomIcon" src="/img/delete-alt-svgrepo-com.svg" onclick="restart()">
+          <img class="bottomIcon" src="/img/eraser-3-svgrepo-com.svg" onclick="changeBrushColor('#ffffff')">
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
@@ -105,26 +106,26 @@
 
   let promptTitles = [];
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault(); // Prevent form submission and page refresh
+  form.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent form submission and page refresh
 
-  if (promptValue) {
-    promptValue.textContent = prompt.value;
-    promptTitles.push = prompt.value
+    if (promptValue) {
+      promptValue.textContent = prompt.value;
+      promptTitles.push = prompt.value
 
-    navigateToDrawingBoard();
+      navigateToDrawingBoard();
+    }
+  });
+
+  function navigateToDrawingBoard() {
+    const drawingAnchor = document.getElementById('drawing-board');
+    if (drawingAnchor) {
+      drawingAnchor.scrollIntoView({ behavior: 'smooth' });
+    }
   }
-});
 
-function navigateToDrawingBoard() {
-  const drawingAnchor = document.getElementById('drawing-board');
-  if (drawingAnchor) {
-    drawingAnchor.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-// Below this line is drawing mechenics
-// ____________________________________
+  // Below this line is drawing mechenics
+  // ____________________________________
 
 
   // Get the drawing canvas element
@@ -142,9 +143,9 @@ function navigateToDrawingBoard() {
   let brushSize = 3; // You can set the desired default brush size
   let brushColor = "#141414"; // Default brush color (black)
 
-function changeBrushColor(color) {
-  brushColor = color;
-}
+  function changeBrushColor(color) {
+    brushColor = color;
+  }
 
   // Variable to store drawing history for the undo functionality
   let drawingHistory = [];
@@ -156,23 +157,23 @@ function changeBrushColor(color) {
   }
 
   // Update cursor position and draw cursor outline
-canvas.addEventListener('mousemove', updateCursorPosition);
+  // canvas.addEventListener('mousemove', updateCursorPosition);
 
-// Function to update cursor position and draw cursor outline
-function updateCursorPosition(e) {
-  if (!isDrawing) {
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // // Function to update cursor position and draw cursor outline
+  // function updateCursorPosition(e) {
+  //   if (!isDrawing) {
+  //     // Clear the canvas
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw cursor outline
-    const [x, y] = [e.offsetX, e.offsetY];
-    ctx.beginPath();
-    ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
-    ctx.strokeStyle = brushColor;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-}
+  //     // Draw cursor outline
+  //     const [x, y] = [e.offsetX, e.offsetY];
+  //     ctx.beginPath();
+  //     ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+  //     ctx.strokeStyle = brushColor;
+  //     ctx.lineWidth = 2;
+  //     ctx.stroke();
+  //   }
+  // }
 
   // Function to update the brush color based on the color picker's value
   function updateBrushColor() {
@@ -226,4 +227,5 @@ function updateCursorPosition(e) {
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', stopDrawing);
   canvas.addEventListener('mouseout', stopDrawing);
+  
 </script>
