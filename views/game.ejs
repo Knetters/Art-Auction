@@ -84,8 +84,10 @@
             <input type="range" min="3" max="100" value="3" class="brush-slider" id="brushSizeInput" onchange="updateBrushSize()">
             </div>
 
-          <img id="trashIcon" class="bottomIcon" src="/img/delete-alt-svgrepo-com.svg" onclick="restart()">
-          <img class="bottomIcon" src="/img/eraser-3-svgrepo-com.svg" onclick="changeBrushColor('#ffffff')">
+            <div class="bottom-button-row">
+              <img id="trashIcon" class="bottomIcon" src="/img/delete-alt-svgrepo-com.svg" onclick="restart()">
+              <img class="bottomIcon" src="/img/eraser-3-svgrepo-com.svg" onclick="changeBrushColor('#ffffff')">
+            </div>
         </div>
         <div class="draw-box horizontal-flex-item">
           <canvas class="drawing-canvas" id="drawing-canvas"></canvas>
